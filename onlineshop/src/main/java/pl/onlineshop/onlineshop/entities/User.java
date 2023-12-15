@@ -24,7 +24,8 @@ public class User {
     private String email;
     @Enumerated
     private Gender gender;
-    private String userna;
+    @Transient
+    private String confirmPassword;
 
     public User(String name, String password,String email, Gender gender) {
         this.name = name;
@@ -32,5 +33,5 @@ public class User {
         this.email = email;
         this.gender = gender;
     }
-    ///sdsdsasdass
+
 }

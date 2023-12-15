@@ -131,10 +131,10 @@ function deleteData() {
     }
 
 
-   // Tablica przechowuj¹ca produkty w koszyku
+   // Tablica przechowujï¿½ca produkty w koszyku
 var cartItems = [];
 
-// Funkcja dodaj¹ca produkt do koszyka
+// Funkcja dodajï¿½ca produkt do koszyka
 function addToCart(name, price, quantity) {
   var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -143,7 +143,7 @@ function addToCart(name, price, quantity) {
   });
 
   if (existingItem) {
-    // Jeœli produkt ju¿ istnieje w koszyku, zwiêksz iloœæ
+    // Jeï¿½li produkt juï¿½ istnieje w koszyku, zwiï¿½ksz iloï¿½ï¿½
     existingItem.quantity += quantity;
   } else {
     // W przeciwnym razie dodaj nowy produkt do koszyka
@@ -162,18 +162,18 @@ function addToCart(name, price, quantity) {
   
 }
 
-// Funkcja usuwaj¹ca produkt z koszyka
+// Funkcja usuwajï¿½ca produkt z koszyka
 
 
-// Funkcja odœwie¿aj¹ca zawartoœæ koszyka
+// Funkcja odï¿½wieï¿½ajï¿½ca zawartoï¿½ï¿½ koszyka
 function updateCartTable() {
   var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   var tableBody = document.querySelector("#cart-table tbody");
 
-  // Wyczyœæ zawartoœæ tabeli
+  // Wyczyï¿½ï¿½ zawartoï¿½ï¿½ tabeli
   tableBody.innerHTML = "";
 
-  // Generuj wiersze dla ka¿dego elementu w koszyku
+  // Generuj wiersze dla kaï¿½dego elementu w koszyku
   cartItems.forEach(function(item) {
     var row = document.createElement("tr");
     var nameCell = document.createElement("td");
@@ -206,7 +206,7 @@ function updateCartTable() {
     tableBody.appendChild(row);
   });
 
-  // Aktualizuj sumê zamówienia
+  // Aktualizuj sumï¿½ zamï¿½wienia
   updateTotalPrice();
 }
   
@@ -220,12 +220,12 @@ function updateTotalPrice() {
   totalPriceElement.textContent = "Total price: " + totalPrice.toFixed(2) + " $";
 }
 
-// Wywo³aj funkcjê po za³adowaniu strony, aby zaktualizowaæ zawartoœæ koszyka
+// Wywoï¿½aj funkcjï¿½ po zaï¿½adowaniu strony, aby zaktualizowaï¿½ zawartoï¿½ï¿½ koszyka
 window.addEventListener("DOMContentLoaded", function() {
   updateCartTable();
   });
 
-// Funkcja do z³o¿enia zamówienia
+// Funkcja do zï¿½oï¿½enia zamï¿½wienia
 function placeOrder() {
   fetch('endpoint-do-zlozenia-zamowienia', {
     method: 'POST',
@@ -236,30 +236,51 @@ function placeOrder() {
   })
   .then(response => response.json())
   .then(data => {
-    // Logika po z³o¿eniu zamówienia
+    // Logika po zï¿½oï¿½eniu zamï¿½wienia
   })
   .catch(error => {
-    console.error('B³¹d podczas z³o¿enia zamówienia:', error);
+    console.error('Bï¿½ï¿½d podczas zï¿½oï¿½enia zamï¿½wienia:', error);
   });
 }
 function removeFromCart(item) {
   var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-  // ZnajdŸ indeks produktu do usuniêcia
+  // Znajdï¿½ indeks produktu do usuniï¿½cia
   var index = cartItems.findIndex(function(cartItem) {
     return cartItem.name === item.name;
   });
 
   if (index !== -1) {
-    // Usuñ produkt z koszyka
+    // Usuï¿½ produkt z koszyka
     cartItems.splice(index, 1);
 
     // Zapisz zmieniony koszyk w localStorage
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-    // Zaktualizuj tabelê koszyka
+    // Zaktualizuj tabelï¿½ koszyka
     updateCartTable();
 
     alert("Item removed from cart!");
   }
 }
+    function handleFormSubmission() {
+      // Tutaj umieÅ›Ä‡ logikÄ™ do obsÅ‚ugi formularza
+
+      // JeÅ›li rejestracja przebiegnie pomyÅ›lnie, wywoÅ‚aj funkcjÄ™ popup()
+      if (rejestracjaPomyslna()) {
+        popup();
+      }
+
+      // ZwrÃ³Ä‡ false, aby zapobiec domyÅ›lnej akcji formularza
+      return false;
+    }
+    function popup() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var isUserRegistered = urlParams.get('registered') === 'true';
+
+      if (isUserRegistered) {
+        alert("Sukces! Zarejestrowano poprawnie.");
+      }
+    }
+
+

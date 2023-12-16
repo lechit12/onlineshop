@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @Entity
@@ -29,9 +30,14 @@ public class User {
 
     public User(String name, String password,String email, Gender gender) {
         this.name = name;
-        this.password = password;
+        this.password=password;
+        //setPassword(password);
         this.email = email;
         this.gender = gender;
     }
-
+//    public void setPassword(String password)
+//    {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        this.password=passwordEncoder.encode(password);
+//    }
 }

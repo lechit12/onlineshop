@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.onlineshop.onlineshop.entities.User;
 import pl.onlineshop.onlineshop.repository.UserRepository;
 import javax.validation.Valid;
+import java.util.Optional;
+
 @Controller
 public class RegisterController {
     @Autowired
@@ -32,18 +34,22 @@ public class RegisterController {
 //}
     @PostMapping("/rejestracjaForm")
     public String processRegistration(@ModelAttribute("user") @Valid User user,
-                                      BindingResult result,
-                                      Model model) {
-
+                                      BindingResult result,BindingResult resultEmail,
+                                      Model model)  {
+        Optional<User> existingUser=userRepository.findByEmail(user.getEmail());
         // Walidacja czy hasło i potwierdzenie hasła są takie same
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             result.rejectValue("confirmPassword", "error.user", "Hasło i potwierdzenie hasła nie są identyczne.");
         }
 
-        if (result.hasErrors()) {
+
+        if (existingUser.isPresent()) {
+         resultEmail.rejectValue("email", "error.user", "Email juz zajety");
+
+        }
+        if (result.hasErrors() || resultEmail.hasErrors()) {
             return "rejestracja"; // Zwróć do formularza rejestracji z komunikatem o błędzie
         }
-
         userRepository.save(user);
         model.addAttribute("messageType", "success");
         model.addAttribute("message", "Rejestracja przebiegła pomyślnie. Możesz teraz się zalogować.");

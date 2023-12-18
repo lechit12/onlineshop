@@ -1,6 +1,6 @@
 package pl.onlineshop.onlineshop.controller;
 
-import org.jetbrains.annotations.NotNull;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +23,7 @@ public class HomeController {
     redirectAttributes.addFlashAttribute("messageType", "success");
     return "index";
 }
+
 
 
 }

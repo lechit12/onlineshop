@@ -1,4 +1,27 @@
 package pl.onlineshop.onlineshop.services;
 
-public class CustomUserDetailsService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import pl.onlineshop.onlineshop.entities.CustomUserDetails;
+import pl.onlineshop.onlineshop.entities.User;
+import pl.onlineshop.onlineshop.repository.UserRepository;
+
+import java.util.Optional;
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+    @Autowired
+    private UserRepository repo;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repo.findByEmail(email);
+        if(user == null)
+        {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new CustomUserDetails(user);
+    }
 }

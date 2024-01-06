@@ -13,11 +13,9 @@ import java.util.List;
 public class AdminController {
 
     private UserRepository userRepository;
-    @GetMapping("/admin")
-    public String admin()
-    {
-
-
-        return "/admin";
-    }
+//    @GetMapping("/admin")
+//    public String admin()
+//    {
+//        return "admin";
+//    }
 }

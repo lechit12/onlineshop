@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -251,7 +251,7 @@
               
 
               <div class="an_productattributes">
-<form method="post" class="an_productattributesForm" action="koszyk">
+        <form method="post" class="an_productattributesForm" action="koszyk">
 
 
         <div class="an_productattributes-add">
@@ -716,6 +716,50 @@
 
     </div>
   </article>
+      <article class="product-miniature js-product-miniature
+             product-mobile-row
+            js-img-view-type
+    type-hover
+            col-lg-4
+" data-id-product="151" data-id-product-attribute="0" itemscope itemtype="http://schema.org/Product" th:each="item: ${items}">
+      <div class="item" >
+                  <img src="img/tarcze.jpg" itemprop="image" alt="Eventuri Audi S1 2.0tfsi Black Carbon Intake" width="291" height="291">
+
+                  <p class="item-name" th:text="${item.name}"></p>
+
+
+
+
+
+                  <span class="sr-only">Price</span>
+                  <span class="price" itemprop="price" >
+                                <span th:text="${item.price}"></span>
+                            </span>
+
+
+
+                  <div class="an_productattributes">
+                      <form method="post" class="an_productattributesForm" action="koszyk">
+
+
+                          <div class="an_productattributes-add">
+                              <button class="btn an_productattributes-add-to-cart-btn js-an_productattributes-add-to-cart" data-button-action="add-to-cart" type="submit"  data-status="1">
+
+                                  <img src="img/koszyk.png" alt="Shopping Cart" width="18" height="18" >
+                                  Add to cart
+                              </button>
+                          </div>
+
+                      </form>
+                  </div>
+
+
+      </div>
+      </article>
+
+
+
+
       
       </div>
 

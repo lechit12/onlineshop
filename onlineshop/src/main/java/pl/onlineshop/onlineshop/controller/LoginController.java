@@ -48,8 +48,5 @@ public class LoginController {
         return "admin_login";
     }
 
-    @GetMapping("/admin")
-    public String viewAdminPage(){
-        return "admin";
-    }
+
 }

@@ -22,25 +22,17 @@
   
 </head>
 <body>
-  <h1>Podgląd danych</h1>
+  <h1>Dodaj</h1>
+  <form th:action="@{/admin}" method="post">
+    <label>Nazwa</label>
+    <input type="text" name="name" required>
+    <label>Cena</label>
+    <input type="number" min="0.01" step="0.01" name="price" required>
+    <label>img</label>
+    <input type="text" name="img">
+    <button type="submit">Dodaj</button>
 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Gender</th>
-      <th>Delete</th>
-    </tr>
-    <tr>
-      
-      <td id="name"></td>
-      <td id="email"></td>
-      <td id="gender"></td>
-       <td><input type="checkbox" id="delete-checkbox"></td>
-    </tr>
-
-    <tbody id="registration-data"></tbody>
-  </table>
+  </form>
 
   <button onclick="displayData()">Update</button>
   <button onclick="deleteData()">Usuń</button>

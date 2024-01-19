@@ -39,6 +39,11 @@ public class Item {
     public Item() {
 
     }
+    public void updateFields(String name, BigDecimal price, String img) {
+        this.name = name;
+        this.price = price;
+        this.img = img;
+    }
 
 
     public void setId(Long id) {

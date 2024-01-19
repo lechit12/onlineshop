@@ -39,7 +39,9 @@ public class AdminSecurityConfig extends SecurityConfigurerAdapter<DefaultSecuri
                     try {
                         authorizeHttpRequests
                                 .requestMatchers("/admin").hasAuthority("ADMIN")
+                                .requestMatchers("/hamulcowy").hasAnyAuthority("ADMIN","USER")
                                 .requestMatchers("/**").permitAll()
+                                .requestMatchers(request -> HttpMethod.POST.matches(request.getMethod()) && request.getServletPath().startsWith("/admin/delete")).hasAuthority("ADMIN")
                                 .and().formLogin()
                                 .and().csrf().disable();
                     } catch (Exception e) {

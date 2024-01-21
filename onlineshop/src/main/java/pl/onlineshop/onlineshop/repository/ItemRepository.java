@@ -12,12 +12,4 @@ import java.math.BigDecimal;
 @Repository
 public interface ItemRepository extends JpaRepository<Item,Long> {
 
-    Item findItemById(Long id);
-
-    void deleteById(Long id);
-
-    @Modifying
-    @Query("UPDATE Item SET name = :name, price = :price, img = :img WHERE id = :id")
-    void updateItem(@Param("id") Long id, @Param("name") String name, @Param("price") BigDecimal price, @Param("img") String img);
-
 }

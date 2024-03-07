@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @Entity
@@ -20,18 +23,24 @@ public class User {
     private String name;
     @Column(nullable = false,length = 64)
     private String password;
-    @Column(nullable = false,unique = true,length = 45)
+    @Column(unique = true,nullable = false,length = 45)
     private String email;
-    @Enumerated
-    private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Transient
     private String confirmPassword;
 
-    public User(String name, String password,String email, Gender gender) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.gender = gender;
-    }
+    @Transient
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    public User(String name, String password,String email, Role role) {
+        this.name = name;
+        //this.password=password;
+        setPassword(password);
+        this.email = email;
+        this.role = role;
+    }
+    public void setPassword(String rawPassword) {
+        this.password = passwordEncoder.encode(rawPassword);
+    }
 }

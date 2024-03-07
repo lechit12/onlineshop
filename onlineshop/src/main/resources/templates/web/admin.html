@@ -22,97 +22,74 @@
   
 </head>
 <body>
-  <h1>Podgląd danych</h1>
+  <h1>Dodaj</h1>
+  <form th:action="@{/admin}" method="post">
+    <label>Nazwa</label>
+    <input type="text" name="name" required>
+    <label>Cena</label>
+    <input type="number" min="0.01" step="0.01" name="price" required>
+    <label>img</label>
+    <input type="text" name="img">
+    <button type="submit">Dodaj</button>
+
+  </form>
 
   <table>
+    <thead>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Gender</th>
-      <th>Delete</th>
+      <th>ID</th>
+      <th>Nazwa</th>
+      <th>Cena</th>
+      <th>Obrazek</th>
+      <th>Akcje</th> <!-- Nowa kolumna dla przycisków -->
     </tr>
-    <tr>
-      
-      <td id="name"></td>
-      <td id="email"></td>
-      <td id="gender"></td>
-       <td><input type="checkbox" id="delete-checkbox"></td>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+      <td th:text="${item.id}"></td>
+      <td th:text="${item.name}"></td>
+      <td th:text="${item.price}"></td>
+      <td th:text="${item.img}"></td>
+      <td>
+        <a th:href="@{'/admin?editing=' + ${item.id}}">Edytuj</a>
+        <form th:action="@{'/admin/delete/' + ${item.id}}" method="post"
+              onsubmit="return confirm('Czy na pewno chcesz usunąć?')">
+          <button onclick="deleteItem(${item.id})">Usuń</button>
+        </form>
+      </td>
     </tr>
+    </tbody>
 
-    <tbody id="registration-data"></tbody>
+    <!-- Formularz edycji -->
+    <form th:if="${editingItem != null}"
+          th:action="@{'/admin/edit/' + ${editingItem.id}}" method="post">
+      <h2>Edytuj</h2>
+      <label>Nazwa</label>
+      <input type="text" name="name" th:value="${editingItem.name}" required>
+      <label>Cena</label>
+      <input type="number" min="0.01" step="0.01" name="price" th:value="${editingItem.price}" required>
+      <label>img</label>
+      <input type="text" name="img" th:value="${editingItem.img}">
+      <button type="submit">Zapisz zmiany</button>
+    </form>
   </table>
-
-  <button onclick="displayData()">Update</button>
-  <button onclick="deleteData()">Usuń</button>
-
   <script>
-    function displayData() {
-      var storedData = localStorage.getItem("registrationData");
-      if (storedData) {
-        var registrations = JSON.parse(storedData);
-        var tbody = document.getElementById("registration-data");
-        
-        // Wyczyść poprzednie dane w tabeli
-        tbody.innerHTML = "";
-        
-        // Iteruj przez wszystkie zarejestrowane dane i utwórz wiersze w tabeli
-        registrations.forEach(function(registration) {
-          var row = document.createElement("tr");
-          var nameCell = document.createElement("td");
-          nameCell.textContent = registration.name;
-          var emailCell = document.createElement("td");
-          emailCell.textContent = registration.email;
-          var genderCell = document.createElement("td");
-          genderCell.textContent = registration.gender;
-          var deleteCell = document.createElement("td");
-          var deleteCheckbox = document.createElement("input");
-          deleteCheckbox.type = "checkbox";
-          deleteCheckbox.value = registration.email;
-          deleteCell.appendChild(deleteCheckbox);
-          
-          row.appendChild(nameCell);
-          row.appendChild(emailCell);
-          row.appendChild(genderCell);
-          row.appendChild(deleteCell);
-          tbody.appendChild(row);
-        });
+    function deleteItem(itemId) {
+      if (confirm('Czy na pewno chcesz usunąć?')) {
+        fetch(`/admin/delete/${itemId}`, {
+          method: 'DELETE',
+        })
+                .then(response => {
+                  if (response.ok) {
+                    // Przekieruj lub zaktualizuj widok
+                    window.location.reload(); // Przykładowe zaktualizowanie strony
+                  } else {
+                    console.error('Błąd podczas usuwania przedmiotu');
+                  }
+                })
+                .catch(error => console.error('Błąd podczas wykonania żądania DELETE', error));
       }
     }
-     function updateData() {
-  
-    
-    var name = document.getElementById("name").value;
-  var email = document.getElementById("email").value;
-  var gender = document.querySelector('input[name="gender"]:checked').value;
-
-  var userData = {
-    name: name,
-    email: email,
-    gender: gender
-  };
-var storedData = localStorage.getItem("registrationData");
-  var registrations = [];
-  
-  if (storedData) {
-    registrations = JSON.parse(storedData);
-  // Znajdź indeks rejestracji na podstawie identyfikatora
-    var registrationId = userData.id;
-    var index = registrations.findIndex(function(registration) {
-      return registration.id === registrationId;
-    });
-
-    if (index !== -1) {
-      registrations[index] = userData;
-      localStorage.setItem("registrationData", JSON.stringify(registrations));
-      alert("Data updated successfully!");
-    } else {
-      alert("Registration not found.");
-    }
-}
-}
-
-    displayData();  // Wywołanie funkcji displayData() po załadowaniu strony
-    
   </script>
 </body>
 </html>
